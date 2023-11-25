@@ -6,7 +6,6 @@ const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questio
   const [count, setCount] = useState(15);
   const [answers, setAnswers] = useState(0);
   const [questionMode, setQuestionMode] = useState(0);
-  const [added, setAdded] = useState(false);
   const [points, setPoints] = useState(0);
   let timer = useRef(null);
   timer.current = setTimeout(() => {
@@ -21,11 +20,11 @@ const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questio
   }
 
   const sendAnswer = (num) => {
-    socket.emit("game_send_answer", { num, sessionId });
+    socket.emit("game_send_answer", num, sessionId, socket.id );
   }
 
   useEffect(() => {
-    socket.once('question_finished', final => {
+    socket.on('question_finished', final => {
       setAnswers(0);
       if (final) {
         onFinalButtonClick();
@@ -33,26 +32,19 @@ const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questio
         onButtonClick();
       }
     })
-    socket.once("student_notify_correct", (correct) => {
+
+    socket.on("student_game_notify_answer", () => {
+      setAnswers(answers+1);
+    })
+
+    socket.on("student_notify_correct", (correct) => {
       setQuestionMode(1);
       if(correct) {
-        const x = (count/15)*1000;
-        addPoints(x);
-      } else {
-        addPoints(0);
+          const x = ((count/15)*1000);
+          setPoints(points + x);
       }
     })
-  }, [socket, onButtonClick, onFinalButtonClick]);
-
-  const addPoints = (num) => {
-    if (!added) {
-      console.log("num: " + num);
-      setAnswers((answers+1));
-      setPoints(points => (points + num));
-      console.log(points);
-      setAdded(true);
-    }
-  }
+  }, [socket, onButtonClick, onFinalButtonClick, setPoints, points, answers, count]);
 
   return (
       <Box

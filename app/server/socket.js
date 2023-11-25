@@ -93,12 +93,13 @@ const setupSocketIO = (server) => {
       socket.to(sessionId).emit("join_game", {participant});
     });
 
-    socket.on("game_send_answer", ({num, sessionId}) => {
-      socket.to(sessionId).emit("game_receive_answer", num);
+    socket.on("game_send_answer", (num, sessionId, id) => {
+      socket.to(sessionId).emit("game_receive_answer", num, id);
     });
 
-    socket.on("notify_correct", ({correct, sessionId}) => {
-      socket.to(sessionId).emit("student_notify_correct", correct);
+    socket.on("notify_correct", (correct, sessionId, id) => {
+      socket.to(sessionId).emit("student_game_notify_answer");
+      io.to(id).emit("student_notify_correct", correct);
     });
 
   });

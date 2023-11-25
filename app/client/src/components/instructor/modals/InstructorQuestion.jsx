@@ -27,11 +27,17 @@ const InstructorQuestion = ({ onButtonClick, onFinalButtonClick, questions, ques
   }
 
   useEffect(() => {
-    socket.on("game_receive_answer", (num) => {
+    const handleReceiveAnswer = (num, id) => {
       setAnswers(answers+1);
       const correct = questions[questionNum].answers[num].correct
-      socket.emit("notify_correct", { correct, sessionId} );
-    });
+      socket.emit("notify_correct", correct, sessionId, id);
+    }
+
+    socket.on("game_receive_answer", handleReceiveAnswer);
+
+    return () => {
+      socket.off("game_receive_answer")
+    }
   }, [socket, questions, questionNum, answers, sessionId]);
 
   const questionDone = () => {
