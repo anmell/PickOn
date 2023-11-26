@@ -1,8 +1,8 @@
-# Pick_On
+# PickOn
 
 ## Description
 
-This is the Pick_On prototype developed by Fall 2023 ICS Capstone students [Wenhao Q.](https://github.com/wenhaoq20) and [Braydon N.](https://github.com/Breadonn)
+This is the PickOn prototype developed by Fall 2023 ICS Capstone students [Wenhao Q.](https://github.com/wenhaoq20) and [Braydon N.](https://github.com/Breadonn)
 
 ## Installation
 
