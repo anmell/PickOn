@@ -8,7 +8,6 @@ import InstructorResults from './modals/InstructorResults';
  * Component for the instructor game mode for courseSession.
  * 
  * @component
- * @param {Object} props The props for the component.
  * @param {function} props.onButtonClick The function to handle the back button.
  * @param {Object} props.socket The socket for the component.
  * @param {string} props.sessionId The id of the session.

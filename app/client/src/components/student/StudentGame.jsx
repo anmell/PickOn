@@ -9,6 +9,7 @@ import StudentResults from './modals/StudentResults';
  *
  * @component
  * @param {Object} props The props for the component.
+ * @param {int} props.initialCount The initial count for the timer.
  * @returns {React.ReactElement} The countdown timer component.
  */
 const StudentGame = ({ socket, sessionId, name }) => {

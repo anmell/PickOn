@@ -24,6 +24,17 @@ const style = {
   p: 4,
 };
 
+/**
+ * Component for adding a student.
+ * 
+ * @component
+ * @param {boolean} props.open The boolean for the modal open state.
+ * @param {function} props.handleClose The function to handle the modal close.
+ * @param {function} props.setSuccessMsg The function to set the success message.
+ * @param {function} props.setAlertOpen The function to set the alert open state.
+ * @param {Object} props.courseInfo The course information.
+ * @returns {React.ReactElement} The add student component.
+ */
 const AddStudent = ({ open, handleClose, setSuccessMsg, setAlertOpen, courseInfo }) => {
   const { userId } = useAuth();
   const [formData, setFormData] = useState({
@@ -45,7 +56,6 @@ const AddStudent = ({ open, handleClose, setSuccessMsg, setAlertOpen, courseInfo
     e.preventDefault();
     try {
       const response = await addStudent(axiosInstance, formData, courseInfo);
-      console.log(response);
       if (response.status === 200) {
         sucessAlert();
         handleClose();

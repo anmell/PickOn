@@ -8,13 +8,13 @@ import { removeStudent } from "../services/course/courses";
  * 
  * @component
  * @param {Object} row The row of the table
- * @param {Function} handleOpen Function to open the edit student modal
- * @param {Function} handleSetEditStudent Function to set the student to edit
+ * @param {function} handleOpen Function to open the edit student modal
+ * @param {function} handleSetEditStudent Function to set the student to edit
  * @returns {React.Element} The edit button
  */
 const EditButton = ({ row, handleOpen, handleSetEditStudent }) => {
-    const handleEdit = (row) => {
-        handleSetEditStudent(row._id);
+    const handleEdit = () => {
+        handleSetEditStudent(row);
         handleOpen();
     };
 
@@ -44,7 +44,6 @@ const RemoveButton = ({ row, userId, courseInfo }) => {
         const uhId = row.uhId;
         try {
             const response = await removeStudent(axiosInstance, { uhId, userId, courseInfo });
-            console.log(response);
         } catch (error) {
             console.error(error);
         }
@@ -69,8 +68,8 @@ const RemoveButton = ({ row, userId, courseInfo }) => {
  * 
  * @param {Object} courseInfo The student information
  * @param {string} userId The user's ID
- * @param {Function} handleOpen Function to open the edit student modal
- * @param {Function} handleSetEditStudent Function to set the student to edit
+ * @param {function} handleOpen Function to open the edit student modal
+ * @param {function} handleSetEditStudent Function to set the student to edit
  * @returns {Array} The array of columns
  */
 export const tableColumns = (courseInfo, userId, handleOpen, handleSetEditStudent) => [
@@ -109,7 +108,7 @@ export const tableColumns = (courseInfo, userId, handleOpen, handleSetEditStuden
         headerName: "Edit",
         width: 120,
         sortable: false,
-        renderCell: ({ row }) => <EditButton row={row} courseInfo={courseInfo} handleOpen={handleOpen} handleSetEditStudent={handleSetEditStudent} />,
+        renderCell: ({ row }) => <EditButton row={row} handleOpen={handleOpen} handleSetEditStudent={handleSetEditStudent} />,
     },
     {
         field: "delete",
