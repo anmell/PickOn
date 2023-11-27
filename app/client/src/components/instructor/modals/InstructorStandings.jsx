@@ -1,13 +1,27 @@
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 
-const leaderboard = [
-  "1st: Dave",
-  "2nd: Hayley",
-  "3rd: Indah",
-  "4th: Zane",
-  "5th: Hop",
-]
-const InstructorStandings = () => {
+const InstructorStandings = ({ onButtonClick, socket , sessionId, onlineUsers }) => {
+
+  const [standingsInfo, setStandingsInfo] = useState([]);
+
+  useEffect(() => {
+    socket.once("receive_standings_info", (infoJSON) => {
+      socket.emit("send_standings_info_student", sessionId, infoJSON);
+      const info = JSON.parse(infoJSON);
+      setStandingsInfo([...standingsInfo, info]);
+      standingsInfo.sort((a, b) => {return a.score - b.score});
+      })
+
+    return () => {
+      socket.off("receive_standings_info")
+    }
+  }, [socket, standingsInfo, setStandingsInfo, sessionId])
+  const goNext = () => {
+    socket.emit('standings_finished', { sessionId });
+    onButtonClick();
+  }
+
   return (
       <Box
           sx={{
@@ -18,7 +32,6 @@ const InstructorStandings = () => {
             alignItems: "center",
           }}
       >
-        <Typography variant='h3'>16/20 Students answered correctly</Typography>
         <Grid container
               sx={{
                 marginTop: 4,
@@ -46,7 +59,9 @@ const InstructorStandings = () => {
                 alignItems: "center",
               }}
           >
-            {leaderboard.map((element) => (
+            {standingsInfo.filter((value, index, self) =>
+              index === self.findIndex((t) => t.name === value.name)
+              ).map((element, index) => (
                 <Box
                     mt={1}
                     mb={1}
@@ -68,19 +83,21 @@ const InstructorStandings = () => {
                             overflowWrap: "break-word",
                           }}
                       >
-                        {element}
+                        {index + 1}. {element.name}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} style={{ display: "flex", justifyContent: "flex-end" }}>
                       <Typography>
-                        9999
+                        {element.score}
                       </Typography>
                     </Grid>
                   </Grid>
                 </Box>
             ))}
           </Paper>
-          <Button variant='contained'>
+          <Button variant='contained'
+            onClick={goNext}
+          >
             Next Question
           </Button>
         </Grid>
@@ -89,4 +106,4 @@ const InstructorStandings = () => {
   );
 }
 
-export default InstructorStandings();
+export default InstructorStandings;

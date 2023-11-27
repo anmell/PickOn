@@ -1,101 +1,158 @@
-import React, { useState, useEffect } from "react";
-import { Container, Typography, Grid, Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Container, Typography, Box } from "@mui/material";
+import StudentStandings from './modals/StudentStandings';
+import StudentQuestion from './modals/StudentQuestion';
+import StudentResults from './modals/StudentResults';
 
 /**
  * Component for the student game mode for courseSession.
- * 
+ *
  * @component
+ * @param {Object} props The props for the component.
  * @param {int} props.initialCount The initial count for the timer.
  * @returns {React.ReactElement} The countdown timer component.
  */
-const CountDownTimer = ({ initialCount }) => {
-  const [count, setCount] = useState(initialCount);
+const StudentGame = ({ socket, sessionId, name }) => {
+  const [mode, setMode] = useState(0);
+  const [questions, setQuestions] = useState();
+  const [score, setScore] = useState(0);
+  const [num, setNum] = useState(0);
+  const [finalScores, setFinalScores] = useState([]);
+  const [correct, setCorrect] = useState(false);
+
+    const goQuestions = () => {
+      setMode(1);
+    }
+    const goStandings = () => {
+      setMode(5);
+      setTimeout(() => {
+        setMode(2);
+      }, 1000);
+    }
+    const goResults = () => {
+      setMode(4);
+    }
+
+    const isCorrect = (correct) => {
+      if (correct) {
+        setCorrect(true);
+      } else {
+        setCorrect(false);
+      }
+    }
 
   useEffect(() => {
-    if (count > 0) {
-      const timerId = setInterval(() => {
-        setCount((prevCount) => prevCount - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
+    if (mode === 4) { // Check if it's the correct mode to emit the score
+      socket.emit("final_score_submit", name, score, sessionId);
     }
-  }, [count]);
+  }, [score, name, sessionId, socket, mode]); // Include 'mode' in the dependency array
 
-  return (
-    <Container component="main">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={6}>
-            <Typography variant="h6" align="center">
-              Time Remaining: {count}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
-  );
-};
 
-/**
- * Component for the student game mode for courseSession.
- * 
- * @component
- * @returns {React.ReactElement} The student game mode component.
- */
-const StudentGame = () => {
-  return (
-    <Container component="main">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h5" align="center" gutterBottom>
-          Question
-        </Typography>
-      </Box>
-      <Grid container spacing={2} justifyContent="center" marginTop={6}>
-        <Grid item xs={6}>
-          <Button variant="outlined" fullWidth>
-            <Typography variant="h6" align="center">
-              Answer 1
-            </Typography>
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="outlined" fullWidth>
-            <Typography variant="h6" align="center">
-              Answer 2
-            </Typography>
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="outlined" fullWidth>
-            <Typography variant="h6" align="center">
-              Answer 3
-            </Typography>
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="outlined" fullWidth>
-            <Typography variant="h6" align="center">
-              Answer 4
-            </Typography>
-          </Button>
-        </Grid>
-      </Grid>
-      <CountDownTimer initialCount={30} />
-    </Container>
-  );
-};
+  useEffect(() => {
+      socket.emit('join_game', { name, sessionId });
+
+      socket.on('begin_game_student', (questions) => {
+        let newQuestions = JSON.parse(questions);
+        setQuestions(newQuestions);
+        goQuestions();
+      })
+
+      socket.once('return_final_scores_student', (scoresJSON) => {
+        const scores = JSON.parse(scoresJSON);
+        console.log(scores)
+        setFinalScores(prevScoresInfo => {
+          return [...prevScoresInfo, scores];
+        });
+        setMode(3);
+      })
+
+      return () => {
+        socket.off('return_final_scores_student')
+      }
+
+    }, [socket, name, sessionId])
+
+    return (
+        <Container>
+          {mode === 0 && (
+              <Container>
+                <Box
+                    sx={{
+                      marginTop: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                >
+                  <Typography
+                      variant="h3"
+                      sx={{
+                        marginTop: 2,
+                        marginBottom: 2,
+                      }}
+                  >
+                    Competition Mode
+                  </Typography>
+                  <Typography
+                      variant="h4"
+                      sx={{
+                        marginTop: 2,
+                        marginBottom: 2,
+                      }}
+                  >
+                    Waiting for instructor to start
+                  </Typography>
+                </Box>
+              </Container>
+          )}
+          {mode === 1 && (
+              <StudentQuestion
+                  onButtonClick={(userScore) => {
+                    setScore(score + userScore);
+                    setNum(num + 1);
+                    goStandings();
+                  }}
+                  onFinalButtonClick={(userScore) => {
+                    setScore(score + userScore);
+                    goResults()
+                  }}
+                  questions={questions}
+                  questionNum={num}
+                  socket={socket}
+                  sessionId={sessionId}
+                  setCorrect={(value) => isCorrect(value)}
+              />
+          )}
+          {mode === 2 && (
+              <StudentStandings
+                  onButtonClick={() => goQuestions()}
+                  socket={socket}
+                  sessionId={sessionId}
+                  name={name}
+                  score={score}
+                  correct={correct}
+              />
+          )}
+          {mode === 3 && (
+              <StudentResults
+                socket={socket}
+                name={name}
+                score={score}
+                finalScores={finalScores}
+              />
+          )}
+          {mode === 4 && (
+              <Typography>
+                Loading scores...
+              </Typography>
+          )}
+          {mode === 5 && (
+              <Typography>
+                Loading scores...
+              </Typography>
+          )}
+        </Container>
+    );
+  }
 
 export default StudentGame;

@@ -1,13 +1,58 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+const StudentStandings = ({ onButtonClick, socket, sessionId, name, score, correct }) => {
 
-const leaderboard = [
-  "1st: Dave",
-  "2nd: Hayley",
-  "3rd: Indah",
-  "4th: Zane",
-  "5th: Hop",
-]
-const StudentStandings = () => {
+  const [standingsInfo, setStandingsInfo] = useState([]);
+
+  const info = useMemo(() => {
+    return {
+      name: name,
+      score: score,
+    };
+  }, [name, score]);
+
+  useEffect(() => {
+    socket.emit("send_standings_info", JSON.stringify(info), sessionId);
+  }, [info]);
+
+  /*
+  useEffect(() => {
+    socket.once("receive_standings_info_student", infoJSON => {
+      const newInfo = JSON.parse(infoJSON);
+      setStandingsInfo(prevStandingsInfo => {
+        const updatedStandingsInfo = [...prevStandingsInfo, newInfo];
+        updatedStandingsInfo.sort((a, b) => a.score - b.score);
+        return updatedStandingsInfo;
+      });
+    });
+    return () => {
+      socket.off("receive_standings_info_student");
+    };
+
+  }, [socket])
+
+   */
+
+  useEffect(() => {
+    const receiveStandingsInfo = (infoJSON) => {
+      const newInfo = JSON.parse(infoJSON);
+      setStandingsInfo([...standingsInfo, newInfo]);
+    };
+
+    socket.on("receive_standings_info_student", receiveStandingsInfo);
+
+    return () => {
+      socket.off("receive_standings_info_student", receiveStandingsInfo);
+    };
+  });
+
+
+  useEffect(() => {
+    socket.on("standings_finished", () => {
+      onButtonClick();
+    })
+  }, [onButtonClick, socket]);
+
   return (
       <Box
           sx={{
@@ -18,7 +63,12 @@ const StudentStandings = () => {
             alignItems: "center",
           }}
       >
-        <Typography variant='h3'>You got the last question Correct!</Typography>
+        {correct && (
+          <Typography variant='h3'>You got the last question Correct!</Typography>
+          )}
+        {!correct && (
+            <Typography variant='h3'>You got the last question Incorrect</Typography>
+        )}
         <Grid container
               sx={{
                 marginTop: 4,
@@ -45,7 +95,7 @@ const StudentStandings = () => {
                 alignItems: "center",
               }}
           >
-            {leaderboard.map((element) => (
+            {Array.isArray(standingsInfo) && [...standingsInfo].sort((a, b) => b.score - a.score).slice(0, 5).map((element, index) => (
                 <Box
                     mt={1}
                     mb={1}
@@ -67,12 +117,12 @@ const StudentStandings = () => {
                             overflowWrap: "break-word",
                           }}
                       >
-                        {element}
+                        {index + 1}. {element.name}
                       </Typography>
                     </Grid>
                     <Grid item xs={6} style={{ display: "flex", justifyContent: "flex-end" }}>
                       <Typography>
-                        9999
+                        {element.score}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -84,11 +134,11 @@ const StudentStandings = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}>Your Score: 8952</Typography>
+          }}>Your Score: {score}</Typography>
         </Grid>
 
       </Box>
   );
 }
 
-export default StudentStandings();
+export default StudentStandings;

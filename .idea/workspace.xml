@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="48cebc6d-340f-4835-8842-e71830032fb8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/client/src/components/instructor/InstructorGame.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/client/src/components/instructor/modals/question.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/client/src/components/instructor/modals/standings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/client/src/components/student/modals/question.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/client/src/components/student/modals/standings.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/src/components/instructor/Cards/ModeCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/instructor/cards/ModeCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/src/components/instructor/InstructorLobby.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/instructor/InstructorLobby.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/src/components/instructor/Modals/CreateCourse.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/instructor/modals/CreateCourse.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/src/components/student/Modals/JoinCourse.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/student/modals/JoinCourse.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/client/src/pages/instructor/ManageCourseSession.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/pages/instructor/ManageCourseSession.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/src/components/student/StudentGame.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/student/StudentGame.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/src/components/student/modals/StudentQuestion.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/student/modals/StudentQuestion.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/client/src/components/student/modals/StudentStandings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/client/src/components/student/modals/StudentStandings.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +31,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -51,15 +47,22 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nagas\Documents\GitHub\PickOn_Project\app\client\src\public\pictures" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
