@@ -23,6 +23,7 @@ const StudentGame = ({ socket, sessionId, name }) => {
       setMode(1);
     }
     const goStandings = () => {
+      setMode(5);
       setTimeout(() => {
         setMode(2);
       }, 1000);
@@ -65,7 +66,6 @@ const StudentGame = ({ socket, sessionId, name }) => {
       })
 
       return () => {
-        socket.off('begin_game_student')
         socket.off('return_final_scores_student')
       }
 
@@ -141,6 +141,11 @@ const StudentGame = ({ socket, sessionId, name }) => {
               />
           )}
           {mode === 4 && (
+              <Typography>
+                Loading scores...
+              </Typography>
+          )}
+          {mode === 5 && (
               <Typography>
                 Loading scores...
               </Typography>

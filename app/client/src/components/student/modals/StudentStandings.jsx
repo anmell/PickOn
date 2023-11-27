@@ -13,8 +13,9 @@ const StudentStandings = ({ onButtonClick, socket, sessionId, name, score, corre
 
   useEffect(() => {
     socket.emit("send_standings_info", JSON.stringify(info), sessionId);
-  });
+  }, [info]);
 
+  /*
   useEffect(() => {
     socket.once("receive_standings_info_student", infoJSON => {
       const newInfo = JSON.parse(infoJSON);
@@ -29,6 +30,22 @@ const StudentStandings = ({ onButtonClick, socket, sessionId, name, score, corre
     };
 
   }, [socket])
+
+   */
+
+  useEffect(() => {
+    const receiveStandingsInfo = (infoJSON) => {
+      const newInfo = JSON.parse(infoJSON);
+      setStandingsInfo([...standingsInfo, newInfo]);
+    };
+
+    socket.on("receive_standings_info_student", receiveStandingsInfo);
+
+    return () => {
+      socket.off("receive_standings_info_student", receiveStandingsInfo);
+    };
+  });
+
 
   useEffect(() => {
     socket.on("standings_finished", () => {
@@ -78,7 +95,7 @@ const StudentStandings = ({ onButtonClick, socket, sessionId, name, score, corre
                 alignItems: "center",
               }}
           >
-            {standingsInfo.slice(0, 5).map((element, index) => (
+            {Array.isArray(standingsInfo) && [...standingsInfo].sort((a, b) => b.score - a.score).slice(0, 5).map((element, index) => (
                 <Box
                     mt={1}
                     mb={1}

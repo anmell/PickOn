@@ -57,7 +57,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][1]?.name || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[1]?.name || 'N/A'}
             </Typography>
             <Typography
                 variant="h5"
@@ -66,7 +66,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][1]?.score || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[1]?.score || 'N/A'}
             </Typography>
           </Grid>
           <Grid item xs={4} sx={{
@@ -101,7 +101,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][0]?.name || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[0]?.name || 'N/A'}
             </Typography>
             <Typography
                 variant="h5"
@@ -110,7 +110,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][0]?.score || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[0]?.score || 'N/A'}
             </Typography>
           </Grid>
           <Grid item xs={4} sx={{
@@ -145,7 +145,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][2]?.name || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[2]?.name || 'N/A'}
             </Typography>
             <Typography
                 variant="h5"
@@ -154,7 +154,7 @@ const StudentResults = ({ socket, name, score, finalScores}) => {
                   marginBottom: 2,
                 }}
             >
-              {finalScores[0][2]?.score || 'N/A'}
+              {finalScores[0].sort((a, b) => b.score - a.score)[2]?.score || 'N/A'}
             </Typography>
           </Grid>
         </Grid>

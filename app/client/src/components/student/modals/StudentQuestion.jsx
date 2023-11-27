@@ -48,11 +48,12 @@ const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questio
       }
 
       return () => {
+        socket.off("question_finished");
         socket.off("student_game_notify_answer");
         socket.off("student_notify_correct");
       }
     })
-  }, [socket, onButtonClick, onFinalButtonClick, setPoints, points, answers, count, setCorrect]);
+  });
 
   return (
       <Box
