@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Box, Button, TextField } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import StudentStandings from './modals/StudentStandings';
 import StudentQuestion from './modals/StudentQuestion';
+import StudentResults from './modals/StudentResults';
 
 /**
  * Component for the student game mode for courseSession.
@@ -10,37 +11,65 @@ import StudentQuestion from './modals/StudentQuestion';
  * @param {Object} props The props for the component.
  * @returns {React.ReactElement} The countdown timer component.
  */
-const StudentGame = ({ socket, sessionId }) => {
-  const [participants, setParticipants] = useState('Waiting for people to join...');
+const StudentGame = ({ socket, sessionId, name }) => {
   const [mode, setMode] = useState(0);
-  const [name, setName] = useState('');
   const [questions, setQuestions] = useState();
-  let [num, setNum] = useState(0);
+  const [score, setScore] = useState(0);
+  const [num, setNum] = useState(0);
+  const [finalScores, setFinalScores] = useState([]);
+  const [correct, setCorrect] = useState(false);
+
     const goQuestions = () => {
       setMode(1);
     }
     const goStandings = () => {
-      setMode(2);
+      setTimeout(() => {
+        setMode(2);
+      }, 1000);
     }
     const goResults = () => {
-      setMode(3);
+      setMode(4);
     }
 
-    const join = (name) => {
+    const isCorrect = (correct) => {
+      if (correct) {
+        setCorrect(true);
+      } else {
+        setCorrect(false);
+      }
+    }
+
+  useEffect(() => {
+    if (mode === 4) { // Check if it's the correct mode to emit the score
+      socket.emit("final_score_submit", name, score, sessionId);
+    }
+  }, [score, name, sessionId, socket, mode]); // Include 'mode' in the dependency array
+
+
+  useEffect(() => {
       socket.emit('join_game', { name, sessionId });
-      setMode(0);
-    }
 
-    useEffect(() => {
       socket.on('begin_game_student', (questions) => {
         let newQuestions = JSON.parse(questions);
         setQuestions(newQuestions);
         goQuestions();
       })
-      socket.on('join_game', ({ participant }) => {
-        setParticipants(participant);
+
+      socket.once('return_final_scores_student', (scoresJSON) => {
+        const scores = JSON.parse(scoresJSON);
+        console.log(scores)
+        setFinalScores(prevScoresInfo => {
+          return [...prevScoresInfo, scores];
+        });
+        setMode(3);
       })
-    })
+
+      return () => {
+        socket.off('begin_game_student')
+        socket.off('return_final_scores_student')
+      }
+
+    }, [socket, name, sessionId])
 
     return (
         <Container>
@@ -72,29 +101,25 @@ const StudentGame = ({ socket, sessionId }) => {
                   >
                     Waiting for instructor to start
                   </Typography>
-                  <TextField
-                      id="outlined-multiline-static"
-                      label="Student participants list"
-                      multiline
-                      rows={8}
-                      disabled
-                      style={{ width: 800 }}
-                      value={participants}
-                  />
                 </Box>
               </Container>
           )}
           {mode === 1 && (
               <StudentQuestion
-                  onButtonClick={() => {
+                  onButtonClick={(userScore) => {
+                    setScore(score + userScore);
                     setNum(num + 1);
                     goStandings();
                   }}
-                  onFinalButtonClick={() => goResults()}
+                  onFinalButtonClick={(userScore) => {
+                    setScore(score + userScore);
+                    goResults()
+                  }}
                   questions={questions}
                   questionNum={num}
                   socket={socket}
                   sessionId={sessionId}
+                  setCorrect={(value) => isCorrect(value)}
               />
           )}
           {mode === 2 && (
@@ -102,29 +127,23 @@ const StudentGame = ({ socket, sessionId }) => {
                   onButtonClick={() => goQuestions()}
                   socket={socket}
                   sessionId={sessionId}
+                  name={name}
+                  score={score}
+                  correct={correct}
               />
           )}
           {mode === 3 && (
-              <div>RESULTS</div>
+              <StudentResults
+                socket={socket}
+                name={name}
+                score={score}
+                finalScores={finalScores}
+              />
           )}
           {mode === 4 && (
-              <Container>
-                <TextField
-                    onChange={(e) => setName(e.target.value)}
-                >
-                  hi
-                </TextField>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    onClick={() => (
-                        join(name)
-                    )}
-                >
-                  Join
-                </Button>
-              </Container>
+              <Typography>
+                Loading scores...
+              </Typography>
           )}
         </Container>
     );

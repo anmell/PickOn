@@ -102,6 +102,22 @@ const setupSocketIO = (server) => {
       io.to(id).emit("student_notify_correct", correct);
     });
 
+    socket.on("send_standings_info", (infoJSON, sessionId) => {
+      socket.to(sessionId).emit("receive_standings_info", infoJSON);
+    });
+
+    socket.on("send_standings_info_student", (sessionId, infoJSON) => {
+      socket.to(sessionId).emit("receive_standings_info_student", infoJSON);
+    });
+
+    socket.on("final_score_submit", (name, score, sessionId) => {
+      socket.to(sessionId).emit("final_score_receive", name, score);
+    })
+
+    socket.on("return_final_scores", ( scoresJSON, sessionId) => {
+      socket.to(sessionId).emit("return_final_scores_student", scoresJSON);
+    })
+
   });
 
   return io;

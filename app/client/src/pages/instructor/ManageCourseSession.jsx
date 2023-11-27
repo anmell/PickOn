@@ -65,6 +65,7 @@ const ManageCourseSession = () => {
               onButtonClick={() => selectMode("home")}
               socket={socket}
               sessionId={session}
+              onlineUsers={onlineUsers}
           />
       )}
       {sessionMode === "group" && (

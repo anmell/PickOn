@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
-const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questionNum, socket , sessionId}) => {
+const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questionNum, socket , sessionId, setCorrect}) => {
 
   const [count, setCount] = useState(15);
   const [answers, setAnswers] = useState(0);
@@ -24,27 +24,35 @@ const StudentQuestion = ({ onButtonClick, onFinalButtonClick, questions, questio
   }
 
   useEffect(() => {
-    socket.on('question_finished', final => {
+    socket.once('question_finished', final => {
       setAnswers(0);
       if (final) {
-        onFinalButtonClick();
+        onFinalButtonClick(points);
       } else {
-        onButtonClick();
+        onButtonClick(points);
       }
     })
 
-    socket.on("student_game_notify_answer", () => {
+    socket.once("student_game_notify_answer", () => {
       setAnswers(answers+1);
     })
 
-    socket.on("student_notify_correct", (correct) => {
+    socket.once("student_notify_correct", (correct) => {
       setQuestionMode(1);
       if(correct) {
-          const x = ((count/15)*1000);
+          const x = Math.ceil((count/15)*1000);
           setPoints(points + x);
+          setCorrect(true);
+      } else {
+        setCorrect(false);
+      }
+
+      return () => {
+        socket.off("student_game_notify_answer");
+        socket.off("student_notify_correct");
       }
     })
-  }, [socket, onButtonClick, onFinalButtonClick, setPoints, points, answers, count]);
+  }, [socket, onButtonClick, onFinalButtonClick, setPoints, points, answers, count, setCorrect]);
 
   return (
       <Box

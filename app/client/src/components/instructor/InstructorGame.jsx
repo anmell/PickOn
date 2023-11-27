@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import InstructorQuestion from './modals/InstructorQuestion';
 import InstructorStandings from './modals/InstructorStandings';
+import InstructorResults from './modals/InstructorResults';
 
 /**
  * Component for the instructor game mode for courseSession.
@@ -13,10 +14,11 @@ import InstructorStandings from './modals/InstructorStandings';
  * @param {string} props.sessionId The id of the session.
  * @returns {React.ReactElement} The instructor game component.
  */
-const InstructorGame = ({ onButtonClick, socket, sessionId }) => {
-  const [participants, setParticipants] = useState('Waiting for people to join...');
+const InstructorGame = ({ onButtonClick, socket, sessionId, onlineUsers }) => {
+  const [participants, setParticipants] = useState([]);
   const [mode, setMode] = useState(0);
-  let [num, setNum] = useState(0);
+  const [num, setNum] = useState(0);
+  const [finalScores, setFinalScores] = useState([]);
 
   let questions = [{
     question: 'What is the capital of Korea',
@@ -65,14 +67,36 @@ const InstructorGame = ({ onButtonClick, socket, sessionId }) => {
     setMode(2);
   }
   const goResults = () => {
-    setMode(3);
+    setMode(4);
   }
 
   useEffect(() => {
+    if (finalScores.length >= onlineUsers.length) {
+      setTimeout(() => {
+        const finalScoresJSON = JSON.stringify(finalScores);
+        console.log("Emitting finalScoresJSON: " + finalScoresJSON);
+        socket.emit('return_final_scores', finalScoresJSON, sessionId);
+        setMode(3);
+        }, 1000)
+    }
+  }, [finalScores, socket, sessionId ]); // Add dependencies as necessary
+
+
+  useEffect(() => {
     socket.on('join_game', ({ participant }) => {
-      setParticipants(participant);
+      setParticipants(p => [p, participant]);
     })
-  }, [socket, setParticipants])
+
+    socket.once('final_score_receive', (name, score) => {
+      const finalScore = {name: name, score: score}
+      setFinalScores(finalScores => [...finalScores, finalScore]);
+    })
+
+    return () => {
+      socket.off('join_game');
+      socket.off('final_score_receive');
+    };
+  })
 
   const begin = (questions) => {
     const newQuestions = JSON.stringify(questions);
@@ -140,10 +164,17 @@ const InstructorGame = ({ onButtonClick, socket, sessionId }) => {
                 onButtonClick={() => goQuestions()}
                 socket={socket}
                 sessionId={sessionId}
+                onlineUsers={onlineUsers}
             />
         )}
         {mode === 3 && (
-            <Button onClick={onButtonClick}> back </Button>
+            <InstructorResults
+                finalScores={finalScores}
+              onButtonClick={onButtonClick}
+            />
+        )}
+        {mode === 4 && (
+            <Typography>loading results...</Typography>
         )}
       </Container>
   );
