@@ -28,7 +28,7 @@ PickOn_Project/app/client $ npm install
 ```bash
 PickOn_Project/app/server $ npm install
 ```
-5. Create an .env file in the /server directory. It should look like this
+5. Create an .env file in the app/server directory. It should look like this
 ```
 MONGO_URI=<Your own MongoDB_URI to the database>
 JWT_SECRET=<Your own JWT secret for password hashing>
