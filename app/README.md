@@ -47,5 +47,5 @@ PickOn_Project/app/server $ npm run devStart
 3. Visit [http://localhost:3000](http://localhost:3000) to confirm that the website is running
 
 ## Contact
-- [Wenhao Q.](mailto:wenhaoq@hawaii.edu)
-- [Braydon N.](mailto:braydonn@hawaii.edu)
+- [Wenhao Q. (wenhaoq@hawaii.edu)](mailto:wenhaoq@hawaii.edu)
+- [Braydon N. (braydonn@hawaii.edu)](mailto:braydonn@hawaii.edu)
