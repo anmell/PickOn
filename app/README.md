@@ -46,6 +46,10 @@ PickOn_Project/app/server $ npm run devStart
 ```
 3. Visit [http://localhost:3000](http://localhost:3000) to confirm that the website is running
 
+## Application diagram
+
+![test](https://github.com/dport96/PickOn_Project/assets/89876445/728f100a-4b7c-4118-b2a5-81d9dfb79ae6)
+
 ## Contact
 - [Wenhao Q. (wenhaoq@hawaii.edu)](mailto:wenhaoq@hawaii.edu)
 - [Braydon N. (braydonn@hawaii.edu)](mailto:braydonn@hawaii.edu)
