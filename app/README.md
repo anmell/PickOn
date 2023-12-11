@@ -108,9 +108,9 @@ server/
 ### server/service directory overview
 
 ```
-server/service/
-                course/     # Course related backend apis v1
-                user/       # User related backend apis v1
+server/service/v1
+                  course/     # V1 of course related backend apis
+                  user/       # V1 of user related backend apis
 ```
 
 ## Application diagram
