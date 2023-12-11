@@ -1,5 +1,13 @@
 # PickOn
 
+## Table of Contents
+* [Description](#description)
+* [Installation](#installation)
+* [Application Diagram](#application-diagram)
+* [Source Code Organization](#source-code-organization)
+* [Contact](#contact)
+
+
 ## Description
 
 This is the PickOn prototype developed by Fall 2023 ICS Capstone students [Wenhao Q.](https://github.com/wenhaoq20) and [Braydon N.](https://github.com/Breadonn)
@@ -45,6 +53,65 @@ PickOn_Project/app/client $ npm run start
 PickOn_Project/app/server $ npm run devStart
 ```
 3. Visit [http://localhost:3000](http://localhost:3000) to confirm that the website is running
+
+## Source Code Organization
+
+### app directory overview
+```
+app/
+        client/     # Contains the frontend related files
+        server/     # Contains the backend related files
+```
+
+### client directory overview
+```
+client/ 
+        src/                 # Contains the frontend source code
+             components/     # Components within a page
+             pages/          # Url-accessible pages
+             public/         # Images and json files used on the website
+             services/       # Backend api call functions and axios
+             utilis/         # Miscellaneous codes
+```
+
+### components directory overview
+```
+components/
+            instructor/             # Instructor's components
+            student/                # Student's components
+```
+
+### pages directory overview
+```
+pages/
+       instructor/      # Instructor's pages
+       student/         # Student's pages
+```
+
+### client/service directory overview
+
+```
+client/services/
+                course/    # Functions that call backend course api
+                mode/      # Functions that call backend mode api
+                user/      # Functions that call backend user api
+```
+
+### server directory overview
+
+```
+server/
+        models/     # Mongo DB models for the data
+        services/   # Contains the backend api code
+```
+
+### server/service directory overview
+
+```
+server/service/
+                course/     # Course related backend apis v1
+                user/       # User related backend apis v1
+```
 
 ## Application diagram
 
