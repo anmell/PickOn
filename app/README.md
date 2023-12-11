@@ -3,8 +3,8 @@
 ## Table of Contents
 * [Description](#description)
 * [Installation](#installation)
-* [Application Diagram](#application-diagram)
 * [Source Code Organization](#source-code-organization)
+* [Application Diagram](#application-diagram)
 * [Contact](#contact)
 
 
@@ -110,7 +110,6 @@ server/
 ```
 server/service/v1
                   course/     # V1 of course related backend apis
-                  user/       # V1 of user related backend apis
 ```
 
 ## Application diagram
