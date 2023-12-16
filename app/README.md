@@ -5,6 +5,7 @@
 * [Installation](#installation)
 * [Source Code Organization](#source-code-organization)
 * [Application Diagram](#application-diagram)
+* [Progress] (#progress)
 * [Contact](#contact)
 
 
@@ -115,6 +116,9 @@ server/service/v1
 ## Application diagram
 
 ![test](https://github.com/dport96/PickOn_Project/assets/89876445/728f100a-4b7c-4118-b2a5-81d9dfb79ae6)
+
+## Progress
+The current progress of the project can be found [here](https://github.com/users/dport96/projects/1)
 
 ## Contact
 - [Wenhao Q. (wenhaoq@hawaii.edu)](mailto:wenhaoq@hawaii.edu)
