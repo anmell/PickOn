@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   Box,
   TextField,
@@ -33,7 +33,7 @@ const style = {
 
 /**
  * Component for creating a course.
- * 
+ *
  * @component
  * @param {boolean} props.open The boolean for the modal open state.
  * @param {function} props.handleClose The function to handle the modal close.
@@ -68,7 +68,6 @@ const CreateCourse = ({ open, handleClose, setSuccessMsg, setAlertOpen }) => {
     e.preventDefault();
     try {
       const response = await createCourse(axiosInstance, formData);
-      console.log(response);
       if (response.status === 200) {
         sucessAlert();
         handleClose();

@@ -40,8 +40,6 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await userLogin(axiosInstance, email, password);
-      console.log(response);
-      console.log(response.data.role);
       if (response.status === 200) {
         setEmail("");
         setPassword("");

@@ -37,7 +37,10 @@ const StudentGroup = ({ socket, name }) => {
     socket.on("receive_group", (pickedGroupNumber) => {
       setIsPicked(pickedGroupNumber === groupNumber);
     });
-  }, [socket]);
+    return () => {
+      socket.off("receive_group");
+    };
+  }, [socket, groupNumber]);
 
   return (
     <Grid

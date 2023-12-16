@@ -240,7 +240,6 @@ const EditCourse = ({
                 value={formData.startTime}
                 onChange={(time) => {
                   const formattedTime = time ? time.format("HH:mm") : null;
-                  console.log(formattedTime);
                   setFormData({ ...formData, startTime: formattedTime });
                 }}
               />

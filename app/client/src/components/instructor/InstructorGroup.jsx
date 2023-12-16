@@ -14,12 +14,12 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 /**
  * Component for the instructor group mode for courseSession.
- * 
+ *
  * @component
  * @param {function} props.onButtonClick The function to handle the back button.
  * @param {string[]} props.onlineUsers The array of online users.
@@ -31,7 +31,6 @@ const InstructorGroup = ({ onButtonClick, onlineUsers, sessionId, socket }) => {
   const [groupSize, setGroupSize] = useState(1);
   const [groups, setGroups] = useState([]);
   const [pickedGroup, setPickedGroup] = useState(null);
-  const [pickedGroupNumber, setPickedGroupNumber] = useState(null);
 
   const handleGroupGeneration = () => {
     const shuffledNames = onlineUsers.sort(() => 0.5 - Math.random());
@@ -41,19 +40,16 @@ const InstructorGroup = ({ onButtonClick, onlineUsers, sessionId, socket }) => {
     }
     setGroups(generatedGroups);
     setPickedGroup(null);
-    setPickedGroupNumber(null);
   };
 
   const handleRandomGroup = () => {
     if (groups.length > 0) {
       const randomIndex = Math.floor(Math.random() * groups.length);
-      setPickedGroupNumber(randomIndex + 1);
       setPickedGroup(randomIndex);
     }
   };
 
   const handleGroupSelect = (index) => {
-    setPickedGroupNumber(index + 1);
     setPickedGroup(index);
   };
 
@@ -62,7 +58,10 @@ const InstructorGroup = ({ onButtonClick, onlineUsers, sessionId, socket }) => {
   }, [groups]);
 
   useEffect(() => {
-    socket.emit("select_group", { pickedGroupNumber, sessionId });
+    socket.emit("select_group", {
+      pickedGroupNumber: pickedGroup + 1,
+      sessionId,
+    });
   }, [pickedGroup]);
 
   return (
