@@ -5,7 +5,7 @@
 * [Installation](#installation)
 * [Source Code Organization](#source-code-organization)
 * [Application Diagram](#application-diagram)
-* [Progress] (#progress)
+* [Progress](#progress)
 * [Contact](#contact)
 
 
