@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Component for the student pick on mode for courseSession.
- * 
+ *
  * @component
  * @param {Object} props.socket The socket for the component.
  * @param {string} props.name The name of the user.
  * @param {string} props.sessionId The id of the session.
  * @returns {React.ReactElement} The student pick on component.
-  */
+ */
 const StudentPickOn = ({ socket, name, sessionId }) => {
   const [message, setMessage] = useState(
     "You have not been picked on this session."
@@ -42,7 +43,7 @@ const StudentPickOn = ({ socket, name, sessionId }) => {
 
   useEffect(() => {
     socket.on("receive_pickON_student", ({ pickedName }) => {
-      console.log(pickedName);  
+      console.log(pickedName);
       if (name === pickedName) {
         setPicked(true);
         setPass(false);
@@ -108,6 +109,12 @@ const StudentPickOn = ({ socket, name, sessionId }) => {
       </Grid>
     </Grid>
   );
+};
+
+StudentPickOn.propTypes = {
+  socket: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 export default StudentPickOn;

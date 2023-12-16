@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import {
   Box,
   TextField,
@@ -233,6 +234,13 @@ const CreateCourse = ({ open, handleClose, setSuccessMsg, setAlertOpen }) => {
       </Box>
     </Modal>
   );
+};
+
+CreateCourse.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  setSuccessMsg: PropTypes.func.isRequired,
+  setAlertOpen: PropTypes.func.isRequired,
 };
 
 export default CreateCourse;

@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
+import PropTypes from 'prop-types';
 
 /**
  * Component for the instructor pickOn mode for courseSession.
@@ -94,6 +95,13 @@ const InstructorPickOn = ({ onButtonClick, socket, onlineUsers, sessionId }) => 
       </Grid>
     </Container>
   );
+};
+
+InstructorPickOn.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  onlineUsers: PropTypes.array.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 export default InstructorPickOn;

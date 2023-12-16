@@ -9,10 +9,11 @@ import {
   Container,
   Paper,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Component for the student anonymous mode for courseSession.
- * 
+ *
  * @component
  * @param {Object} props.socket The socket for the component.
  * @param {string} props.sessionId The id of the session.
@@ -168,6 +169,11 @@ const StudentAnonymous = ({ socket, sessionId }) => {
       </Grid>
     </Container>
   );
+};
+
+StudentAnonymous.propTypes = {
+  socket: PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 export default StudentAnonymous;

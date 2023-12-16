@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import {
   Card,
   CardActionArea,
@@ -39,5 +41,13 @@ const ModeCard = ({ title, description, image, altText, onButtonClick }) => {
     </Card>
   );
 }
+
+ModeCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  altText: PropTypes.string.isRequired,
+  onButtonClick: PropTypes.func.isRequired,
+};
 
 export default ModeCard;

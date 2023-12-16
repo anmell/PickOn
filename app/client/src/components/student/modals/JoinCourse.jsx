@@ -16,6 +16,7 @@ import {
 import { useAuth } from "../../../AuthContext";
 import { joinCourse } from "../../../services/course/courses";
 import useAxios from "../../../services/axios";
+import PropTypes from "prop-types";
 
 const style = {
   position: "absolute",
@@ -30,7 +31,7 @@ const style = {
 
 /**
  * Component for the join course modal.
- * 
+ *
  * @component
  * @param {boolean} props.open Whether the modal is open.
  * @param {function} props.handleClose The function to close the modal.
@@ -173,6 +174,13 @@ const JoinCourse = ({ open, handleClose, setSuccessMsg, setAlertOpen }) => {
       </Box>
     </Modal>
   );
+};
+
+JoinCourse.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  setSuccessMsg: PropTypes.func.isRequired,
+  setAlertOpen: PropTypes.func.isRequired,
 };
 
 export default JoinCourse;

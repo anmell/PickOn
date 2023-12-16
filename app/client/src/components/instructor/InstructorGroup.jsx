@@ -14,6 +14,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import PropTypes from 'prop-types';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 /**
@@ -149,6 +150,13 @@ const InstructorGroup = ({ onButtonClick, onlineUsers, sessionId, socket }) => {
       </Grid>
     </Container>
   );
+};
+
+InstructorGroup.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+  onlineUsers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  socket: PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 export default InstructorGroup;
