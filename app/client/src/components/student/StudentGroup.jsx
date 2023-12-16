@@ -7,10 +7,11 @@ import {
   ListItemText,
   Grid,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Component for the student group mode for courseSession.
- * 
+ *
  * @component
  * @param {Object} props.socket The socket for the component.
  * @param {string} props.name The name of the user.
@@ -36,7 +37,10 @@ const StudentGroup = ({ socket, name }) => {
     socket.on("receive_group", (pickedGroupNumber) => {
       setIsPicked(pickedGroupNumber === groupNumber);
     });
-  }, [socket]);
+    return () => {
+      socket.off("receive_group");
+    };
+  }, [socket, groupNumber]);
 
   return (
     <Grid
@@ -69,6 +73,11 @@ const StudentGroup = ({ socket, name }) => {
       </Grid>
     </Grid>
   );
+};
+
+StudentGroup.propTypes = {
+  socket: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default StudentGroup;

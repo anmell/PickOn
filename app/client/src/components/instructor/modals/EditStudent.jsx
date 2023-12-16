@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import {
   Box,
   TextField,
@@ -10,10 +11,7 @@ import {
   AlertTitle,
 } from "@mui/material";
 import { useAuth } from "../../../AuthContext";
-import {
-  editStudent,
-  getStudentFromRoster,
-} from "../../../services/course/courses";
+import { editStudent } from "../../../services/course/courses";
 import useAxios from "../../../services/axios";
 
 const style = {
@@ -178,6 +176,15 @@ const EditStudent = ({
       </Box>
     </Modal>
   );
+};
+
+EditStudent.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  setSuccessMsg: PropTypes.func.isRequired,
+  setAlertOpen: PropTypes.func.isRequired,
+  selectEditStudent: PropTypes.object.isRequired,
+  courseInfo: PropTypes.object.isRequired,
 };
 
 export default EditStudent;

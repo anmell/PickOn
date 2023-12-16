@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   TextField,
@@ -33,7 +34,7 @@ const style = {
 
 /**
  * Component for editing a course.
- * 
+ *
  * @component
  * @param {boolean} props.open The boolean for the modal open state.
  * @param {function} props.handleClose The function to handle the modal close.
@@ -239,7 +240,6 @@ const EditCourse = ({
                 value={formData.startTime}
                 onChange={(time) => {
                   const formattedTime = time ? time.format("HH:mm") : null;
-                  console.log(formattedTime);
                   setFormData({ ...formData, startTime: formattedTime });
                 }}
               />
@@ -277,6 +277,14 @@ const EditCourse = ({
       </Box>
     </Modal>
   );
+};
+
+EditCourse.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  setSuccessMsg: PropTypes.func.isRequired,
+  setAlertOpen: PropTypes.func.isRequired,
+  editCourse: PropTypes.string.isRequired,
 };
 
 export default EditCourse;

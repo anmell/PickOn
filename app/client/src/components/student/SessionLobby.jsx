@@ -11,6 +11,7 @@ import {
   Container,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 const createData = (name, scores) => {
   return { name, scores };
@@ -26,12 +27,12 @@ const rows = [
 
 /**
  * Component for the session lobby in the student view
- * 
+ *
  * @component
- * @param {Object} props Component props 
+ * @param {Object} props Component props
  * @param {string} name Student name
  * @param {Object} data Course data
- * @returns 
+ * @returns
  */
 const SessionLobby = ({ name, data }) => {
   return (
@@ -74,6 +75,11 @@ const SessionLobby = ({ name, data }) => {
       <Typography variant="h5">Progress in course: {rows[4].scores}</Typography>
     </Stack>
   );
+};
+
+SessionLobby.propTypes = {
+  name: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 export default SessionLobby;

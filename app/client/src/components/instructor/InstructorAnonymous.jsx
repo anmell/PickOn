@@ -9,10 +9,11 @@ import {
   Container,
   Paper,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 /**
  * Component for the student anonymous mode for courseSession.
- * 
+ *
  * @component
  * @param {function} props.onButtonClick The function to handle the back button.
  * @param {Object} props.socket The socket for the component.
@@ -170,6 +171,12 @@ const InstructorAnonymous = ({ onButtonClick, socket, sessionId }) => {
       </Grid>
     </Container>
   );
+};
+
+InstructorAnonymous.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
 };
 
 export default InstructorAnonymous;

@@ -10,6 +10,7 @@ import {
 import { AccountCircle, ArrowBack } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import PropTypes from 'prop-types';
 
 /**
  * Component for the navbar.
@@ -93,6 +94,11 @@ const Navbar = ({ name, redirect }) => {
       </Toolbar>
     </AppBar>
   );
+};
+
+Navbar.propTypes = {
+  name: PropTypes.string.isRequired,
+  redirect: PropTypes.bool.isRequired,
 };
 
 export default Navbar;

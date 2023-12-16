@@ -3,6 +3,7 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import InstructorQuestion from './modals/InstructorQuestion';
 import InstructorStandings from './modals/InstructorStandings';
 import InstructorResults from './modals/InstructorResults';
+import PropTypes from 'prop-types';
 
 /**
  * Component for the instructor game mode for courseSession.
@@ -177,6 +178,13 @@ const InstructorGame = ({ onButtonClick, socket, sessionId, onlineUsers }) => {
         )}
       </Container>
   );
+};
+
+InstructorGame.propTypes = {
+  onButtonClick: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  sessionId: PropTypes.string.isRequired,
+  onlineUsers: PropTypes.array.isRequired,
 };
 
 export default InstructorGame;

@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Typography, Stack } from "@mui/material";
 import ModeCard from "./cards/ModeCard";
 import { modeData } from "../../public/data/modesInfo.js";
+import PropTypes from 'prop-types';
 
 /**
  * Component for the instructor lobby for courseSession.
@@ -39,6 +40,10 @@ const InstructorLobby = ({ handleSelectMode }) => {
       </Stack>
     </Container>
   );
+};
+
+InstructorLobby.propTypes = {
+  handleSelectMode: PropTypes.func.isRequired,
 };
 
 export default InstructorLobby;

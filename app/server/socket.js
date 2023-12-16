@@ -49,7 +49,11 @@ const setupSocketIO = (server) => {
     });
 
     socket.on("clear_responses", ({ sessionId }) => {
-      anonymousResponse[sessionId].length = 0;
+      if (anonymousResponse[sessionId] !== undefined) {
+        anonymousResponse[sessionId].length = 0;
+      } else {
+        anonymousResponse[sessionId] = [];
+      }
       io.to(sessionId).emit("receive_responses", anonymousResponse[sessionId])
     });
 
@@ -89,8 +93,8 @@ const setupSocketIO = (server) => {
       socket.to(sessionId).emit("begin_game_student", questions);
     });
 
-    socket.on("join_game", ({participant, sessionId}) => {
-      socket.to(sessionId).emit("join_game", {participant});
+    socket.on("join_game", ({ participant, sessionId }) => {
+      socket.to(sessionId).emit("join_game", { participant });
     });
 
     socket.on("game_send_answer", (num, sessionId, id) => {
@@ -114,7 +118,7 @@ const setupSocketIO = (server) => {
       socket.to(sessionId).emit("final_score_receive", name, score);
     })
 
-    socket.on("return_final_scores", ( scoresJSON, sessionId) => {
+    socket.on("return_final_scores", (scoresJSON, sessionId) => {
       socket.to(sessionId).emit("return_final_scores_student", scoresJSON);
     })
 

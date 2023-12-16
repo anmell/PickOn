@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import PropTypes from 'prop-types';
 
 /**
  * Component for the course card in CourseList.
@@ -85,6 +86,10 @@ const CourseCard = ({ data }) => {
       </CardActions>
     </Card>
   );
+};
+
+CourseCard.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default CourseCard;
